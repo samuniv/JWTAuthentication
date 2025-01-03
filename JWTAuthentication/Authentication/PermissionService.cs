@@ -9,12 +9,14 @@ namespace JWTAuthentication.Authentication;
 public class PermissionService : IPermissionService
 {
     private readonly ApplicationDbContext _context;
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<IdentityUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public PermissionService(ApplicationDbContext context, UserManager<User> userManager)
+    public PermissionService(ApplicationDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task<HashSet<string>> GetPermissionsAsync(string userId)
@@ -32,26 +34,27 @@ public class PermissionService : IPermissionService
             .Select(x => x.Name)
             .ToHashSet();*/
 
-        //var roles = await _userManager.GetRolesAsync(new User() { Id = userId });
+        var roles = await _userManager.GetRolesAsync(new IdentityUser() { Id = userId });
 
-        //return new HashSet<string>(roles);
+        var roleIds = await _roleManager.FindByNameAsync(roles.First());
 
-        var user = await _context.Users
-                .Include(u => u.Roles)
-                .ThenInclude(r => r.Permissions)
-                .FirstOrDefaultAsync(u => u.Id == userId);
+        /*var permissions = await _context.Set<RolePermission>()
+            .Include(x => x.Permission)
+            .Where(x => x.RoleId == roleIds.Id)
+            .Select(x => x.Permission.Name)
+            .ToHashSetAsync();*/
 
-        if (user == null)
-        {
-            return new HashSet<string>();
-        }
+        var rolePermissions = await _context.RolePermissions
+                        .Include(x => x.Permission)
+                        .Select(x => x.Permission.Name)
+                        .ToHashSetAsync();
 
-        var permissions = user.Roles
-            .SelectMany(r => r.Permissions)
-            .Select(p => p.Name)
-            .ToHashSet();
+        var userPermissions = await _context.UserPermissions
+            .Include(x => x.Permission)
+            .Where(x => x.UserId == userId)
+            .Select(x => x.Permission.Name)
+            .ToHashSetAsync();
 
-        return permissions;
-
+        return rolePermissions.Union(userPermissions).ToHashSet();
     }
 }

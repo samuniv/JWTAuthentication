@@ -1,4 +1,4 @@
-﻿using JWTAuthentication.Authentication;
+﻿using JWTAuthentication.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +17,11 @@ namespace JWTAuthentication.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<IdentityUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthenticateController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -73,7 +73,7 @@ namespace JWTAuthentication.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            User user = new User()
+            IdentityUser user = new IdentityUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -83,12 +83,12 @@ namespace JWTAuthentication.Controllers
             var result = await userManager.CreateAsync(user, model.Password);
 
             // add role to the user
-            if (!await roleManager.RoleExistsAsync("Registered"))
-                await roleManager.CreateAsync(new IdentityRole("Registered"));
+            if (!await roleManager.RoleExistsAsync("Admin"))
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
 
-            if (await roleManager.RoleExistsAsync("Registered"))
+            if (await roleManager.RoleExistsAsync("Admin"))
             {
-                await userManager.AddToRoleAsync(user, "Registered");
+                await userManager.AddToRoleAsync(user, "Admin");
             }
             // add role to the user
 

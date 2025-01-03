@@ -25,6 +25,7 @@ namespace JWTAuthentication.Controllers
         }
 
         [HttpGet]
+        [HasPermission(PermissionEnum.ReadWeather)]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

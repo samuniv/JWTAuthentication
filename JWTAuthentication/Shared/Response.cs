@@ -1,4 +1,4 @@
-﻿namespace JWTAuthentication.Authentication
+﻿namespace JWTAuthentication.Shared
 {
     public class Response
     {
