@@ -4,6 +4,7 @@ using JWTAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JWTAuthentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250103084724_remove-test-table")]
+    partial class removetesttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,37 +49,7 @@ namespace JWTAuthentication.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "ViewWeather"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "AccessTests"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "ViewTests"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "ViewTestById"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "CreateTest"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "UpdateTest"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "DeleteTest"
+                            Name = "ReadWeather"
                         });
                 });
 
@@ -104,96 +77,7 @@ namespace JWTAuthentication.Migrations
                         {
                             RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
                             PermissionId = 2
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 3
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 4
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 5
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 6
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 7
-                        },
-                        new
-                        {
-                            RoleId = "15f636ea-7f79-49e0-be51-eea53a7727d6",
-                            PermissionId = 8
                         });
-                });
-
-            modelBuilder.Entity("JWTAuthentication.Entity.Test", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("ActiveBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ActiveFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ActiveTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeactivatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DeletedBy")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastModifiedBy")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

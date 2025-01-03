@@ -1,6 +1,7 @@
 
 using JWTAuthentication;
 using JWTAuthentication.Authentication;
+using JWTAuthentication.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -86,6 +87,8 @@ builder.Services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHand
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 
+builder.Services.AddEndpointsApiExplorer();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -111,5 +114,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "JWT Authentication API v1");
     c.RoutePrefix = string.Empty;
 });
+
+app.MapTestEndpoints();
 
 app.Run();

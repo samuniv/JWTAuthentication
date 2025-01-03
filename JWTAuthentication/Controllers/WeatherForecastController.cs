@@ -1,4 +1,5 @@
 ﻿using JWTAuthentication.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,7 +26,8 @@ namespace JWTAuthentication.Controllers
         }
 
         [HttpGet]
-        [HasPermission(PermissionEnum.ReadWeather)]
+        //[HasPermission(PermissionEnum.ViewWeather)]
+        [Authorize(Policy = nameof(PermissionEnum.ViewWeather))]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

@@ -1,4 +1,5 @@
 ﻿using JWTAuthentication.Authentication;
+using JWTAuthentication.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -55,5 +56,6 @@ namespace JWTAuthentication
 
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<Test> Tests { get; set; }
     }
 }
