@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using JWTAuthentication.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace JWTAuthentication.Controllers
 {
-    [Authorize]
+    [HasPermission(PermissionEnum.AccessWeather)]
     [Route("api/[controller]")]
     [ApiController]
     public class WeatherForecastController : ControllerBase
